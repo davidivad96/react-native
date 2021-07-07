@@ -2,7 +2,6 @@ export const BasicTypes = () => {
   const name: string = "David";
   const age: number = 25;
   const isActive: boolean = false;
-
   const powers: string[] = ["Velocity", "Fly", "Breath under water"];
 
   return (
