@@ -2,7 +2,8 @@
 // import { ObjectLiterals } from "./typescript/ObjectLiterals";
 // import { Functions } from "./typescript/Functions";
 // import { Counter } from "./components/Counter";
-import { CounterWithHook } from "./components/CounterWithHook";
+// import { CounterWithHook } from "./components/CounterWithHook";
+import { Auth } from "./components/Auth";
 
 export const App = () => {
   return (
@@ -13,7 +14,8 @@ export const App = () => {
       {/* <ObjectLiterals /> */}
       {/* <Functions /> */}
       {/* <Counter /> */}
-      <CounterWithHook />
+      {/* <CounterWithHook /> */}
+      <Auth />
     </div>
   );
 };
