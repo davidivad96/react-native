@@ -2,7 +2,7 @@ import { useUsers } from "../hooks/useUsers";
 import { User } from "../interfaces/reqRes";
 
 export const Users = () => {
-  const { users, loadUsers } = useUsers();
+  const { users, previousPage, nextPage } = useUsers();
 
   const renderItem = ({ id, avatar, first_name, last_name, email }: User) => (
     <tr key={id}>
@@ -33,7 +33,10 @@ export const Users = () => {
         </thead>
         <tbody>{users.map(renderItem)}</tbody>
       </table>
-      <button className="btn btn-primary" onClick={loadUsers}>
+      <button className="btn btn-primary me-2" onClick={previousPage}>
+        Previous
+      </button>
+      <button className="btn btn-primary" onClick={nextPage}>
         Next
       </button>
     </>

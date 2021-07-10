@@ -4,6 +4,7 @@ import { ReqResList, User } from "../interfaces/reqRes";
 
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const pageRef = useRef(1);
 
   useEffect(() => {
@@ -17,19 +18,32 @@ export const useUsers = () => {
           page: pageRef.current,
         },
       });
-      if (res.data.data.length > 0) {
-        setUsers(res.data.data);
-        pageRef.current++;
-      } else {
-        alert("No more users");
-      }
+      setTotalPages(res.data.total_pages);
+      setUsers(res.data.data);
     } catch (error) {
       console.log("Error: ", error);
     }
   };
 
+  const previousPage = () => {
+    if (pageRef.current > 1) {
+      pageRef.current--;
+      loadUsers();
+    }
+  };
+
+  const nextPage = () => {
+    if (pageRef.current < totalPages) {
+      pageRef.current++;
+      loadUsers();
+    } else {
+      alert("No more users");
+    }
+  };
+
   return {
     users,
-    loadUsers,
+    previousPage,
+    nextPage,
   };
 };
