@@ -4,11 +4,11 @@ export const Counter = () => {
   const [value, setValue] = useState<number>(0);
 
   const incrementValue = () => {
-    setValue((val) => val + 1);
+    setValue((currentValue) => currentValue + 1);
   };
 
   const decrementValue = () => {
-    setValue((val) => val - 1);
+    setValue((currentValue) => currentValue - 1);
   };
 
   return (
