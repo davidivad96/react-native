@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
 import { CalcButton } from '../components/CalcButton';
 
 const FLOATING_NUMBER_REGEX = /^[-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/;
@@ -18,30 +18,29 @@ export const Calculator = () => {
   const [operator, setOperator] = useState<Operators>(Operators.idle);
 
   const clear = useCallback(() => {
-    if (number.length === 1) {
-      setNumber('0');
-    } else {
-      setNumber(currentNumber => currentNumber.slice(0, -1));
-    }
-  }, [number]);
+    setNumber(currentNumber =>
+      currentNumber.length === 1 ? '0' : currentNumber.slice(0, -1),
+    );
+  }, []);
 
   const allClear = useCallback(() => {
     setNumber('0');
     setPreviousNumber('0');
   }, []);
 
-  const buildNumber = useCallback(
-    (numberText: string) => {
-      if (number === '0') {
-        setNumber(numberText === '.' ? '0.' : numberText);
-      } else if (number === '-0') {
-        setNumber('-'.concat(numberText));
-      } else if (number.concat(numberText).match(FLOATING_NUMBER_REGEX)) {
-        setNumber(number.concat(numberText));
+  const buildNumber = useCallback((numberText: string) => {
+    setNumber(currentNumber => {
+      if (currentNumber === '0' || currentNumber === '-0') {
+        return numberText === '.'
+          ? currentNumber.concat('.')
+          : currentNumber.replace('0', numberText);
       }
-    },
-    [number],
-  );
+      if (currentNumber.concat(numberText).match(FLOATING_NUMBER_REGEX)) {
+        return currentNumber.concat(numberText);
+      }
+      return currentNumber;
+    });
+  }, []);
 
   const changeSign = useCallback(() => {
     setNumber(currentNumber =>
@@ -90,11 +89,7 @@ export const Calculator = () => {
 
   const moveNumberToPreviousNumber = useCallback(() => {
     if (previousNumber === '0') {
-      if (number.endsWith('.')) {
-        setPreviousNumber(number.slice(0, -1));
-      } else {
-        setPreviousNumber(number);
-      }
+      setPreviousNumber(number.endsWith('.') ? number.slice(0, -1) : number);
       setNumber('0');
     }
   }, [number, previousNumber]);
@@ -217,14 +212,14 @@ const styles = StyleSheet.create({
   },
   result: {
     color: '#FFF',
-    fontSize: 60,
+    fontSize: 50,
     textAlign: 'right',
     marginBottom: 10,
   },
   smallResult: {
     color: '#FFF',
     opacity: 0.5,
-    fontSize: 30,
+    fontSize: 25,
     textAlign: 'right',
   },
   row: {
@@ -233,7 +228,10 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   specialButton: {
-    flex: 0.9,
+    ...Platform.select({
+      ios: { flex: 0.9 },
+      android: { flex: 1 },
+    }),
     paddingLeft: 30,
   },
   specialButtonText: {
@@ -241,7 +239,9 @@ const styles = StyleSheet.create({
   },
   biggerText: {
     fontSize: 45,
-    lineHeight: 45,
+    ...Platform.select({
+      ios: { lineHeight: 45 },
+    }),
   },
   selectedOperator: {
     borderColor: '#FFF',
