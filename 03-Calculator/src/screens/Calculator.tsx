@@ -8,28 +8,28 @@ export const Calculator = () => {
       <Text style={styles.smallResult}>1,500.00</Text>
       <Text style={styles.result}>1,500.00</Text>
       <View style={styles.row}>
-        <CalcButton text="C" color="secondary" />
+        <CalcButton text="AC" color="secondary" />
         <CalcButton text="+/-" color="secondary" />
         <CalcButton text="%" color="secondary" />
-        <CalcButton text="/" color="primary" />
+        <CalcButton text="÷" color="primary" textStyle={styles.biggerText} />
       </View>
       <View style={styles.row}>
         <CalcButton text="7" />
         <CalcButton text="8" />
         <CalcButton text="9" />
-        <CalcButton text="X" color="primary" />
+        <CalcButton text="×" color="primary" textStyle={styles.biggerText} />
       </View>
       <View style={styles.row}>
         <CalcButton text="4" />
         <CalcButton text="5" />
         <CalcButton text="6" />
-        <CalcButton text="-" color="primary" />
+        <CalcButton text="−" color="primary" textStyle={styles.biggerText} />
       </View>
       <View style={styles.row}>
         <CalcButton text="1" />
         <CalcButton text="2" />
         <CalcButton text="3" />
-        <CalcButton text="+" color="primary" />
+        <CalcButton text="+" color="primary" textStyle={styles.biggerText} />
       </View>
       <View style={styles.row}>
         <CalcButton
@@ -38,7 +38,7 @@ export const Calculator = () => {
           textStyle={styles.specialButtonText}
         />
         <CalcButton text="." />
-        <CalcButton text="=" color="primary" />
+        <CalcButton text="=" color="primary" textStyle={styles.biggerText} />
       </View>
     </View>
   );
@@ -72,5 +72,9 @@ const styles = StyleSheet.create({
   },
   specialButtonText: {
     textAlign: 'left',
+  },
+  biggerText: {
+    fontSize: 45,
+    lineHeight: 45,
   },
 });
