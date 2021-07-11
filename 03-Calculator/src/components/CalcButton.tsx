@@ -13,6 +13,8 @@ interface Props {
   color?: 'default' | 'primary' | 'secondary';
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  onPress: () => void;
+  onLongPress?: () => void;
 }
 
 export const CalcButton = ({
@@ -20,10 +22,14 @@ export const CalcButton = ({
   color = 'default',
   style = {},
   textStyle = {},
+  onPress,
+  onLongPress = () => {},
 }: Props) => (
   <TouchableOpacity
     activeOpacity={0.5}
     style={[styles.button, buttonBackgroundColors[color], style]}
+    onPress={onPress}
+    onLongPress={onLongPress}
   >
     <Text
       style={[
