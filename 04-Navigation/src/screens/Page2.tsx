@@ -8,7 +8,7 @@ export const Page2 = () => {
 
   return (
     <View style={styles.globalMargin}>
-      <Text>Page 2</Text>
+      <Text style={styles.title}>Page 2</Text>
       <Button
         title="Go to Page 3"
         onPress={() => navigator.navigate('Page3')}
