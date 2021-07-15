@@ -5,7 +5,13 @@ import {
   DrawerContentOptions,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import { Image, useWindowDimensions, View } from 'react-native';
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { StackNavigator } from './StackNavigator';
 import { Settings } from '../screens/Settings';
 import { styles } from '../themes/appTheme';
@@ -26,9 +32,9 @@ export const DrawerNavigator = () => {
   );
 };
 
-const DrawerContent = (
-  props: DrawerContentComponentProps<DrawerContentOptions>,
-) => {
+const DrawerContent = ({
+  navigation,
+}: DrawerContentComponentProps<DrawerContentOptions>) => {
   return (
     <DrawerContentScrollView>
       <View style={styles.avatarContainer}>
@@ -38,6 +44,20 @@ const DrawerContent = (
           }}
           style={styles.avatar}
         />
+      </View>
+      <View style={styles.menuContainer}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.navigate('StackNavigator')}
+        >
+          <Text style={styles.menuText}>Navigation</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.navigate('Settings')}
+        >
+          <Text style={styles.menuText}>Settings</Text>
+        </TouchableOpacity>
       </View>
     </DrawerContentScrollView>
   );

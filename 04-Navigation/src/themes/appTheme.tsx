@@ -40,4 +40,15 @@ export const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
   },
+  menuContainer: {
+    marginVertical: 30,
+    marginHorizontal: 50,
+    alignItems: 'center',
+  },
+  menuButton: {
+    marginVertical: 10,
+  },
+  menuText: {
+    fontSize: 20,
+  },
 });
