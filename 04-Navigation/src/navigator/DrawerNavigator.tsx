@@ -8,8 +8,16 @@ const Drawer = createDrawerNavigator();
 export const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="StackNavigator" component={StackNavigator} />
-      <Drawer.Screen name="Settings" component={Settings} />
+      <Drawer.Screen
+        name="StackNavigator"
+        options={{ title: 'Home' }}
+        component={StackNavigator}
+      />
+      <Drawer.Screen
+        name="Settings"
+        options={{ title: 'Settings' }}
+        component={Settings}
+      />
     </Drawer.Navigator>
   );
 };
