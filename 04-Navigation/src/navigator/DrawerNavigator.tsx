@@ -12,9 +12,9 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { StackNavigator } from './StackNavigator';
 import { Settings } from '../screens/Settings';
 import { styles } from '../themes/appTheme';
+import { Tabs } from './Tabs';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +26,7 @@ export const DrawerNavigator = () => {
       drawerType={width >= 768 ? 'permanent' : 'front'}
       drawerContent={props => <DrawerContent {...props} />}
     >
-      <Drawer.Screen name="StackNavigator" component={StackNavigator} />
+      <Drawer.Screen name="Tabs" component={Tabs} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
@@ -48,7 +48,7 @@ const DrawerContent = ({
       <View style={styles.menuContainer}>
         <TouchableOpacity
           style={styles.menuButton}
-          onPress={() => navigation.navigate('StackNavigator')}
+          onPress={() => navigation.navigate('Tabs')}
         >
           <Text style={styles.menuText}>Navigation</Text>
         </TouchableOpacity>
