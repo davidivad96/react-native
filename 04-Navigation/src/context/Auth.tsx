@@ -7,13 +7,14 @@ export interface AuthState {
   favoriteIcon?: string;
 }
 
-const authInitialState: AuthState = {
+export const authInitialState: AuthState = {
   isLoggedIn: false,
 };
 
 export interface AuthContextProps {
   authState: AuthState;
   signIn: () => void;
+  logOut: () => void;
   changeFavoriteIcon: (iconName: string) => void;
 }
 
@@ -30,6 +31,10 @@ export const AuthProvider = ({
     dispatch({ type: 'signIn' });
   };
 
+  const logOut = () => {
+    dispatch({ type: 'logOut' });
+  };
+
   const changeFavoriteIcon = (iconName: string) => {
     dispatch({ type: 'changeFavIcon', payload: iconName });
   };
@@ -39,6 +44,7 @@ export const AuthProvider = ({
       value={{
         authState,
         signIn,
+        logOut,
         changeFavoriteIcon,
       }}
     >
