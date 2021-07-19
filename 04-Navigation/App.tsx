@@ -5,14 +5,17 @@ import { NavigationContainer } from '@react-navigation/native';
 // import { BasicDrawerNavigator } from './src/navigator/BasicDrawerNavigator';
 import { DrawerNavigator } from './src/navigator/DrawerNavigator';
 // import { Tabs } from './src/navigator/Tabs';
+import { AuthProvider } from './src/context/Auth';
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <StackNavigator /> */}
-      {/* <BasicDrawerNavigator /> */}
-      <DrawerNavigator />
-      {/* <Tabs /> */}
+      <AuthProvider>
+        {/* <StackNavigator /> */}
+        {/* <BasicDrawerNavigator /> */}
+        <DrawerNavigator />
+        {/* <Tabs /> */}
+      </AuthProvider>
     </NavigationContainer>
   );
 };
