@@ -12,8 +12,9 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Settings } from '../screens/Settings';
-import { styles } from '../themes/appTheme';
+import { styles, colors } from '../themes/appTheme';
 import { Tabs } from './Tabs';
 
 const Drawer = createDrawerNavigator();
@@ -47,15 +48,17 @@ const DrawerContent = ({
       </View>
       <View style={styles.menuContainer}>
         <TouchableOpacity
-          style={styles.menuButton}
+          style={[styles.menuButton, styles.row]}
           onPress={() => navigation.navigate('Tabs')}
         >
+          <Icon name="compass-outline" size={20} color={colors.black} />
           <Text style={styles.menuText}>Navigation</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.menuButton}
+          style={[styles.menuButton, styles.row]}
           onPress={() => navigation.navigate('Settings')}
         >
+          <Icon name="cog-outline" size={20} color={colors.black} />
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
       </View>

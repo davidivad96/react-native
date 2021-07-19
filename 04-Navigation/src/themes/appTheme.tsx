@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export const colors = {
   primary: '#5856D6',
   white: '#FFF',
+  black: '#000',
 };
 
 export const styles = StyleSheet.create({
@@ -35,6 +36,7 @@ export const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   avatarContainer: {
     alignItems: 'center',

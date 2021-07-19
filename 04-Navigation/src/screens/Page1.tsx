@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Button, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from '../themes/appTheme';
+import { styles, colors } from '../themes/appTheme';
 
 interface Props extends DrawerScreenProps<any, any> {}
 
@@ -9,7 +10,12 @@ export const Page1 = ({ navigation }: Props) => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button title="Menu" onPress={() => navigation.toggleDrawer()} />
+        <TouchableOpacity
+          onPress={() => navigation.toggleDrawer()}
+          style={styles.globalMargin}
+        >
+          <Icon name="menu-outline" color={colors.primary} size={30} />
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
@@ -32,6 +38,7 @@ export const Page1 = ({ navigation }: Props) => {
           }
           style={[styles.bigButton, styles.bigButtonColor1]}
         >
+          <Icon name="body-outline" color={colors.white} size={30} />
           <Text style={styles.bigButtonText}>Pedro</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -43,6 +50,7 @@ export const Page1 = ({ navigation }: Props) => {
           }
           style={[styles.bigButton, styles.bigButtonColor2]}
         >
+          <Icon name="woman-outline" color={colors.white} size={30} />
           <Text style={styles.bigButtonText}>María</Text>
         </TouchableOpacity>
       </View>
