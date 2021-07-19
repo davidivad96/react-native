@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useCallback, useReducer } from 'react';
 import { authReducer } from './authReducer';
 
 export interface AuthState {
@@ -16,6 +16,7 @@ export interface AuthContextProps {
   signIn: () => void;
   logOut: () => void;
   changeFavoriteIcon: (iconName: string) => void;
+  setUsername: (username: string) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -27,17 +28,21 @@ export const AuthProvider = ({
 }) => {
   const [authState, dispatch] = useReducer(authReducer, authInitialState);
 
-  const signIn = () => {
+  const signIn = useCallback(() => {
     dispatch({ type: 'signIn' });
-  };
+  }, []);
 
-  const logOut = () => {
+  const logOut = useCallback(() => {
     dispatch({ type: 'logOut' });
-  };
+  }, []);
 
-  const changeFavoriteIcon = (iconName: string) => {
+  const changeFavoriteIcon = useCallback((iconName: string) => {
     dispatch({ type: 'changeFavIcon', payload: iconName });
-  };
+  }, []);
+
+  const setUsername = useCallback((username: string) => {
+    dispatch({ type: 'setUsername', payload: username });
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -46,6 +51,7 @@ export const AuthProvider = ({
         signIn,
         logOut,
         changeFavoriteIcon,
+        setUsername,
       }}
     >
       {children}
