@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Tab1 } from '../screens/Tab1';
 import { StackNavigator } from './StackNavigator';
 import { colors } from '../themes/appTheme';
-import { Platform, Text } from 'react-native';
+import { Platform } from 'react-native';
 import { TopTabs } from './TopTabs';
 
 export const Tabs = () => {
