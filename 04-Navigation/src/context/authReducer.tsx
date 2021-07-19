@@ -13,6 +13,7 @@ export const authReducer = (
       return {
         ...state,
         isLoggedIn: true,
+        username: 'unknown',
       };
     default:
       return state;
