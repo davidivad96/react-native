@@ -1,19 +1,32 @@
-import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
-import movieDB from '../api/movieDB';
-import { MovieDBNowPlaying } from '../interfaces/movieDBInterfaces';
+import React from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MoviePoster } from '../components/MoviePoster';
+import { useMovies } from '../hooks/useMovies';
 
 export const HomeScreen = () => {
-  useEffect(() => {
-    movieDB
-      .get<MovieDBNowPlaying>('/now_playing')
-      .then(res => console.log('res: ', res.data.results[0].title))
-      .catch(err => console.log(err));
-  }, []);
+  const { top } = useSafeAreaInsets();
+  const { movies, isLoading } = useMovies();
+
+  if (isLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator color="red" size={100} />
+      </View>
+    );
+  }
 
   return (
-    <View>
-      <Text>Home Screen</Text>
+    <View style={{ paddingTop: top + 20 }}>
+      <MoviePoster movie={movies[0]} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  activityIndicatorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
