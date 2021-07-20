@@ -9,7 +9,7 @@ export const useMovies = () => {
   const getMovies = async () => {
     const res = await movieDB.get<MovieDBNowPlaying>('/now_playing');
     setMovies(res.data.results);
-    setIsLoading(true);
+    setIsLoading(false);
   };
 
   useEffect(() => {
