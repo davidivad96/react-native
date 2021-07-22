@@ -28,7 +28,9 @@ export const MoviePoster = ({ movie, height = 420, width = 300 }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 8,
+    marginHorizontal: 2,
+    paddingBottom: 20,
+    paddingHorizontal: 7,
   },
   imageContainer: {
     flex: 1,
