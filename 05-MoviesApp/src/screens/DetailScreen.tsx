@@ -8,6 +8,7 @@ import {
   Text,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { RootStackParams } from '../navigation/MainNavigator';
 
 const { height: screenHeight } = Dimensions.get('screen');
@@ -28,6 +29,7 @@ export const DetailScreen = ({ route }: Props) => {
       <View style={styles.textContainer}>
         <Text style={styles.subtitle}>{movie.original_title}</Text>
         <Text style={styles.title}>{movie.title}</Text>
+        <Icon name="star-outline" color="red" size={20} />
       </View>
     </ScrollView>
   );
