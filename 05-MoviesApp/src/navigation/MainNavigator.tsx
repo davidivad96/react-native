@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../screens/HomeScreen';
 import { DetailScreen } from '../screens/DetailScreen';
-import { Movie } from '../interfaces/movieDBInterfaces';
+import { Movie } from '../interfaces/movieInterfaces';
 
 export type RootStackParams = {
   Home: undefined;
@@ -16,9 +16,6 @@ export const MainNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: {
-          backgroundColor: '#FFF',
-        },
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
