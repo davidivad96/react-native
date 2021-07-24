@@ -17,7 +17,7 @@ export const MovieDetails = ({ movieFull, cast }: Props) => {
       <View style={styles.row}>
         <Icon name="star-outline" color="blue" size={16} style={styles.icon} />
         <Text>{movieFull.vote_average}</Text>
-        <Text>- {movieFull.genres.map(genre => genre.name).join(', ')}</Text>
+        <Text> - {movieFull.genres.map(genre => genre.name).join(', ')}</Text>
       </View>
       <Text style={styles.title}>Overview</Text>
       <Text style={styles.body}>{movieFull.overview}</Text>
