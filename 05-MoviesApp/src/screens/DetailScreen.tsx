@@ -6,10 +6,12 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { RootStackParams } from '../navigation/MainNavigator';
+import { useMovieDetails } from '../hooks/useMovieDetails';
+import { MovieDetails } from '../components/MovieDetails';
 
 const { height: screenHeight } = Dimensions.get('screen');
 
@@ -18,6 +20,7 @@ interface Props extends StackScreenProps<RootStackParams, 'Detail'> {}
 export const DetailScreen = ({ route }: Props) => {
   const movie = route.params;
   const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  const { isLoading, movieFull, cast } = useMovieDetails(movie.id);
 
   return (
     <ScrollView>
@@ -29,7 +32,13 @@ export const DetailScreen = ({ route }: Props) => {
       <View style={styles.textContainer}>
         <Text style={styles.subtitle}>{movie.original_title}</Text>
         <Text style={styles.title}>{movie.title}</Text>
-        <Icon name="star-outline" color="red" size={20} />
+        {isLoading ? (
+          <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size={35} color="blue" />
+          </View>
+        ) : (
+          <MovieDetails movieFull={movieFull!} cast={cast} />
+        )}
       </View>
     </ScrollView>
   );
@@ -60,8 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textContainer: {
-    marginHorizontal: 20,
-    marginTop: 20,
+    padding: 20,
   },
   title: {
     fontSize: 20,
@@ -70,5 +78,8 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     opacity: 0.4,
+  },
+  activityIndicatorContainer: {
+    marginTop: 20,
   },
 });
