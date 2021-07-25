@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   ActivityIndicator,
@@ -11,6 +11,7 @@ import Carousel from 'react-native-snap-carousel';
 import { GradientBackground } from '../components/GradientBackground';
 import { HorizontalSlider } from '../components/HorizontalSlider';
 import { MoviePoster } from '../components/MoviePoster';
+import { getImageColors } from '../helpers/getColors';
 import { useMovies } from '../hooks/useMovies';
 
 const { width: windowWith } = Dimensions.get('window');
@@ -18,6 +19,16 @@ const { width: windowWith } = Dimensions.get('window');
 export const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const { nowPlaying, popular, topRated, upcoming, isLoading } = useMovies();
+
+  const getPosterColors = useCallback(
+    async (index: number) => {
+      const movie = nowPlaying[index];
+      const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+      const [primary, secondary] = await getImageColors(uri);
+      console.log('primary: ', primary, 'secondary: ', secondary);
+    },
+    [nowPlaying],
+  );
 
   if (isLoading) {
     return (
@@ -38,6 +49,7 @@ export const HomeScreen = () => {
               sliderWidth={windowWith}
               itemWidth={300}
               inactiveSlideOpacity={0.5}
+              onSnapToItem={getPosterColors}
             />
           </View>
           <HorizontalSlider title="Popular" movies={popular} />
