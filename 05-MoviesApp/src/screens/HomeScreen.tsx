@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import {
   View,
   ActivityIndicator,
@@ -13,22 +13,31 @@ import { HorizontalSlider } from '../components/HorizontalSlider';
 import { MoviePoster } from '../components/MoviePoster';
 import { getImageColors } from '../helpers/getColors';
 import { useMovies } from '../hooks/useMovies';
+import { GradientContext } from '../context/GradientContext';
 
 const { width: windowWith } = Dimensions.get('window');
 
 export const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const { nowPlaying, popular, topRated, upcoming, isLoading } = useMovies();
+  const { updateColors } = useContext(GradientContext);
 
   const getPosterColors = useCallback(
     async (index: number) => {
       const movie = nowPlaying[index];
       const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-      const [primary, secondary] = await getImageColors(uri);
-      console.log('primary: ', primary, 'secondary: ', secondary);
+      const [primary = 'transparent', secondary = 'transparent'] =
+        await getImageColors(uri);
+      updateColors({ primary, secondary });
     },
-    [nowPlaying],
+    [nowPlaying, updateColors],
   );
+
+  useEffect(() => {
+    if (nowPlaying.length > 0) {
+      getPosterColors(0);
+    }
+  }, [getPosterColors, nowPlaying]);
 
   if (isLoading) {
     return (
