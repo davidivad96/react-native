@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { useCallback } from 'react';
 
-export const GradientContext = createContext({});
+export const GradientContext = createContext({} as ContextProps);
 
 interface ImageColors {
   primary: string;
@@ -11,6 +11,8 @@ interface ImageColors {
 interface ContextProps {
   colors: ImageColors;
   previousColors: ImageColors;
+  updateColors: (colors: ImageColors) => void;
+  updatePreviousColors: (colors: ImageColors) => void;
 }
 
 export const GradientProvider = ({
