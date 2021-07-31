@@ -12,13 +12,13 @@ const DATA: MenuItem[] = [
     id: 0,
     name: 'Animation 101',
     icon: 'cube-outline',
-    components: 'Animation101Screen',
+    component: 'Animation101',
   },
   {
     id: 1,
     name: 'Animation 102',
     icon: 'albums-outline',
-    components: 'Animation102Screen',
+    component: 'Animation102',
   },
 ];
 
