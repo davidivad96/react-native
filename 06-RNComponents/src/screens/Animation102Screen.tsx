@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 export const Animation102Screen = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.purpleBox} />
+      <View style={styles.redBox} />
     </View>
   );
 };
@@ -12,8 +12,10 @@ export const Animation102Screen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  purpleBox: {
+  redBox: {
     backgroundColor: 'red',
     width: 150,
     height: 150,
