@@ -37,6 +37,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNComponents/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNComponents/main.m; sourceTree = "<group>"; };
 		3C09C6BFEBD7CFC188BED8A0 /* Pods-RNComponents-RNComponentsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNComponents-RNComponentsTests.release.xcconfig"; path = "Target Support Files/Pods-RNComponents-RNComponentsTests/Pods-RNComponents-RNComponentsTests.release.xcconfig"; sourceTree = "<group>"; };
+		6371577B26B5E35D001DFE3A /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		7FE396E68269E7862AB7B641 /* Pods-RNComponents.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNComponents.release.xcconfig"; path = "Target Support Files/Pods-RNComponents/Pods-RNComponents.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RNComponents/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82B4C522E5DB9B385BD31F19 /* Pods-RNComponents.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNComponents.debug.xcconfig"; path = "Target Support Files/Pods-RNComponents/Pods-RNComponents.debug.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		13B07FAE1A68108700A75B9A /* RNComponents */ = {
 			isa = PBXGroup;
 			children = (
+				6371577A26B5E327001DFE3A /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -104,6 +106,14 @@
 				D867124D2B09D96F2349E0E1 /* libPods-RNComponents-RNComponentsTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6371577A26B5E327001DFE3A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6371577B26B5E35D001DFE3A /* Ionicons.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
