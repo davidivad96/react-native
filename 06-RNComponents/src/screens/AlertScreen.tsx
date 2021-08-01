@@ -52,6 +52,7 @@ export const AlertScreen = () => {
     >
       <HeaderTitle text="Alerts" color="#5856D6" />
       <Button title="Show Alert" onPress={showAlert} />
+      <View style={styles.separator} />
       <Button title="Show Prompt (only iOS)" onPress={showPrompt} />
     </View>
   );
@@ -60,5 +61,8 @@ export const AlertScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  separator: {
+    height: 10,
   },
 });
