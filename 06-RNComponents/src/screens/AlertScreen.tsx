@@ -35,12 +35,24 @@ export const AlertScreen = () => {
     );
   };
 
+  const showPrompt = () => {
+    Alert.prompt(
+      'Are you sure?',
+      'This action can not be reverted',
+      (value: string) => {
+        console.log('value', value);
+      },
+      'login-password',
+    );
+  };
+
   return (
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
       <HeaderTitle text="Alerts" color="#5856D6" />
       <Button title="Show Alert" onPress={showAlert} />
+      <Button title="Show Prompt (only iOS)" onPress={showPrompt} />
     </View>
   );
 };
