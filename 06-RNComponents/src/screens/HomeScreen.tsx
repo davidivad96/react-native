@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { FlatListMenuItem } from '../components/FlatListMenuItem';
 import { Separator } from '../components/Separator';
-import { MENU_ITEMS } from '../data/menuItems';
+import { MENU_ITEMS } from '../data/MENU_ITEMS';
 import { appTheme } from '../theme/appTheme';
 
 export const HomeScreen = () => {
