@@ -4,8 +4,9 @@ import { appTheme } from '../theme/appTheme';
 
 interface Props {
   text: string;
+  color?: string;
 }
 
-export const HeaderTitle = ({ text }: Props) => (
-  <Text style={appTheme.title}>{text}</Text>
+export const HeaderTitle = ({ text, color = '#000' }: Props) => (
+  <Text style={[appTheme.title, { color }]}>{text}</Text>
 );
