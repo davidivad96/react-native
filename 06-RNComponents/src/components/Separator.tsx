@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export const FlatListSeparator = () => <View style={styles.separator} />;
+export const Separator = () => <View style={styles.separator} />;
 
 const styles = StyleSheet.create({
   container: {

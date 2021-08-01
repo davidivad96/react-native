@@ -6,6 +6,6 @@ interface Props {
   text: string;
 }
 
-export const FlatListHeader = ({ text }: Props) => (
+export const HeaderTitle = ({ text }: Props) => (
   <Text style={appTheme.title}>{text}</Text>
 );
