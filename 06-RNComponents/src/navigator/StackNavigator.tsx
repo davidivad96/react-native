@@ -6,6 +6,7 @@ import { Animation102Screen } from '../screens/Animation102Screen';
 import { SwitchScreen } from '../screens/SwitchScreen';
 import { AlertScreen } from '../screens/AlertScreen';
 import { TextInputScreen } from '../screens/TextInputScreen';
+import { PullToRefreshScreen } from '../screens/PullToRefreshScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export const StackNavigator = () => {
       <Stack.Screen name="Switch" component={SwitchScreen} />
       <Stack.Screen name="Alert" component={AlertScreen} />
       <Stack.Screen name="TextInput" component={TextInputScreen} />
+      <Stack.Screen name="PullToRefresh" component={PullToRefreshScreen} />
     </Stack.Navigator>
   );
 };
