@@ -2,6 +2,7 @@ import React from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { Separator } from '../components/Separator';
 import { appTheme } from '../theme/appTheme';
 
 interface Houses {
@@ -35,7 +36,6 @@ export const CustomSectionListScreen = () => {
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Section List" color="#5856D6" />
       <SectionList
         sections={houses}
         renderItem={({ item }) => <Text>{item}</Text>}
@@ -43,7 +43,22 @@ export const CustomSectionListScreen = () => {
         renderSectionHeader={({ section }) => (
           <HeaderTitle text={section.house} />
         )}
+        renderSectionFooter={({ section }) => (
+          <HeaderTitle
+            text={'Total: '.concat(section.data.length.toString())}
+          />
+        )}
+        ListHeaderComponent={() => (
+          <HeaderTitle text="Section List" color="#5856D6" />
+        )}
+        ListFooterComponent={() => (
+          <HeaderTitle
+            text={'Total houses: '.concat(houses.length.toString())}
+          />
+        )}
         stickySectionHeadersEnabled
+        ItemSeparatorComponent={() => <Separator />}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
