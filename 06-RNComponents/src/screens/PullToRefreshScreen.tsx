@@ -7,26 +7,37 @@ import { appTheme } from '../theme/appTheme';
 export const PullToRefreshScreen = () => {
   const { top } = useSafeAreaInsets();
 
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [data, setData] = useState<string>('');
 
   const onRefresh = () => {
     setRefreshing(true);
     setTimeout(() => {
       console.log('Finished');
       setRefreshing(false);
-    }, 1500);
+      setData('Hello World!');
+    }, 3500);
   };
 
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          progressViewOffset={10}
+          progressBackgroundColor="#5856D6"
+          colors={['white', 'red', 'orange']}
+          style={styles.refreshControl}
+          tintColor="#FFF"
+        />
       }
     >
       <View
         style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
       >
         <HeaderTitle text="Pull to refresh" color="#5856D6" />
+        {!!data && <HeaderTitle text={data} />}
       </View>
     </ScrollView>
   );
@@ -35,5 +46,8 @@ export const PullToRefreshScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  refreshControl: {
+    backgroundColor: '#5856D6',
   },
 });
