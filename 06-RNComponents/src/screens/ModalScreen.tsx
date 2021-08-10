@@ -34,10 +34,16 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(rgba(0,0,0,0.3))',
+    backgroundColor: 'rgba(rgba(0,0,0,0.5))',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   modalContent: {
+    width: 200,
+    height: 200,
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
 });
