@@ -43,4 +43,10 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'list-outline',
     component: 'CustomSectionList',
   },
+  {
+    id: 8,
+    name: 'Modals',
+    icon: 'copy-outline',
+    component: 'Modals',
+  },
 ];
