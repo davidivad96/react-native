@@ -11,7 +11,10 @@ export const InfiniteScrollScreen = () => {
   const [numbers, setNumbers] = useState<number[]>([0, 1, 2, 3, 4, 5]);
 
   const renderItem = ({ item }: { item: number }) => (
-    <FadeInImage uri={`https://picsum.photos/id/${item}/500/400`} />
+    <FadeInImage
+      uri={`https://picsum.photos/id/${item}/500/400`}
+      style={styles.image}
+    />
   );
 
   const loadMore = () => {
@@ -59,5 +62,8 @@ const styles = StyleSheet.create({
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    height: 400,
   },
 });
