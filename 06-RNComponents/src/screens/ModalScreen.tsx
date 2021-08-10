@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Modal, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { appTheme } from '../theme/appTheme';
@@ -9,20 +16,35 @@ export const ModalScreen = () => {
 
   const [visible, setVisible] = useState(false);
 
+  const openModal = () => {
+    setVisible(true);
+  };
+
+  const closeModal = () => {
+    setVisible(false);
+  };
+
   return (
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
       <HeaderTitle text="Modals" color="#5856D6" />
-      <Button title="Open modal" onPress={() => setVisible(true)} />
-      <Modal animationType="fade" visible={visible} transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <HeaderTitle text="My modal" />
-            <Text>Modal body</Text>
-            <Button title="Close" onPress={() => setVisible(false)} />
+      <Button title="Open modal" onPress={openModal} />
+      <Modal
+        animationType="fade"
+        visible={visible}
+        transparent
+        onRequestClose={closeModal}
+      >
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <HeaderTitle text="My modal" />
+              <Text>Modal body</Text>
+              <Button title="Close" onPress={closeModal} />
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
