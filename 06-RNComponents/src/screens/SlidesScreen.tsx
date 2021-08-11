@@ -5,10 +5,13 @@ import {
   ImageSourcePropType,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { appTheme } from '../theme/appTheme';
 
@@ -40,6 +43,7 @@ const items: Slide[] = [
 
 export const SlidesScreen = () => {
   const { top } = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -66,11 +70,21 @@ export const SlidesScreen = () => {
           setActiveIndex(index);
         }}
       />
-      <Pagination
-        dotsLength={items.length}
-        activeDotIndex={activeIndex}
-        dotStyle={styles.carouselDot}
-      />
+      <View style={styles.pagination}>
+        <Pagination
+          dotsLength={items.length}
+          activeDotIndex={activeIndex}
+          dotStyle={styles.carouselDot}
+        />
+        <TouchableOpacity
+          style={styles.carouselButton}
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon name="chevron-forward-outline" color="#FFF" size={40} />
+          <Text style={styles.carouselButtonText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -103,10 +117,29 @@ const styles = StyleSheet.create({
     height: 400,
     resizeMode: 'center',
   },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
   carouselDot: {
     width: 10,
     height: 10,
     borderRadius: 5,
     backgroundColor: '#5856D6',
+  },
+  carouselButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#5856D6',
+    width: 150,
+    height: 50,
+    borderRadius: 10,
+  },
+  carouselButtonText: {
+    fontSize: 25,
+    color: '#FFF',
   },
 });
