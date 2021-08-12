@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
+  Animated,
   Dimensions,
   Image,
   ImageSourcePropType,
@@ -14,6 +15,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { appTheme } from '../theme/appTheme';
+import { useAnimation } from '../hooks/useAnimation';
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get('window');
 
@@ -44,8 +46,10 @@ const items: Slide[] = [
 export const SlidesScreen = () => {
   const { top } = useSafeAreaInsets();
   const navigation = useNavigation();
+  const { opacity, fadeIn } = useAnimation();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const isVisible = useRef(false);
 
   const renderItem = (item: Slide) => (
     <View style={styles.slideContainer}>
@@ -68,6 +72,10 @@ export const SlidesScreen = () => {
         sliderHeight={windowHeight}
         onSnapToItem={index => {
           setActiveIndex(index);
+          if (index === 2) {
+            fadeIn(200);
+            isVisible.current = true;
+          }
         }}
       />
       <View style={styles.pagination}>
@@ -76,14 +84,18 @@ export const SlidesScreen = () => {
           activeDotIndex={activeIndex}
           dotStyle={styles.carouselDot}
         />
-        <TouchableOpacity
-          style={styles.carouselButton}
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon name="chevron-forward-outline" color="#FFF" size={40} />
-          <Text style={styles.carouselButtonText}>Go Back</Text>
-        </TouchableOpacity>
+        <Animated.View style={{ opacity }}>
+          <TouchableOpacity
+            style={styles.carouselButton}
+            activeOpacity={0.7}
+            onPress={() =>
+              isVisible.current ? navigation.navigate('Home') : null
+            }
+          >
+            <Icon name="chevron-forward-outline" color="#FFF" size={40} />
+            <Text style={styles.carouselButtonText}>Enter</Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </View>
   );
