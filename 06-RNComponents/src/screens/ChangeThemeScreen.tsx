@@ -6,21 +6,34 @@ import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 export const ChangeThemeScreen = () => {
-  const { setDarkTheme } = useContext(ThemeContext);
+  const {
+    theme: { colors },
+    setLightTheme,
+    setDarkTheme,
+  } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
 
   return (
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Themes" color="#5856D6" />
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.6}
-        onPress={setDarkTheme}
-      >
-        <Text style={styles.buttonText}>Light / Dark</Text>
-      </TouchableOpacity>
+      <HeaderTitle text="Themes" />
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          style={{ ...styles.button, backgroundColor: colors.primary }}
+          activeOpacity={0.6}
+          onPress={() => setLightTheme()}
+        >
+          <Text style={styles.buttonText}>Light</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ ...styles.button, backgroundColor: colors.primary }}
+          activeOpacity={0.6}
+          onPress={() => setDarkTheme()}
+        >
+          <Text style={styles.buttonText}>Dark</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -29,8 +42,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+  },
   button: {
-    backgroundColor: '#5856D6',
     justifyContent: 'center',
     width: 150,
     height: 50,

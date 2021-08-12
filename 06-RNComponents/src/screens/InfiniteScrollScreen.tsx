@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FadeInImage } from '../components/FadeInImage';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 export const InfiniteScrollScreen = () => {
   const { top } = useSafeAreaInsets();
+  const {
+    theme: { colors },
+  } = useContext(ThemeContext);
 
   const [numbers, setNumbers] = useState<number[]>([0, 1, 2, 3, 4, 5]);
 
@@ -35,12 +39,10 @@ export const InfiniteScrollScreen = () => {
         data={numbers}
         keyExtractor={item => item.toString()}
         renderItem={renderItem}
-        ListHeaderComponent={
-          <HeaderTitle text="Infinite Scroll" color="#5856D6" />
-        }
+        ListHeaderComponent={<HeaderTitle text="Infinite Scroll" />}
         ListFooterComponent={() => (
           <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator size={20} color="#5856D6" />
+            <ActivityIndicator size={20} color={colors.primary} />
           </View>
         )}
         onEndReached={loadMore}

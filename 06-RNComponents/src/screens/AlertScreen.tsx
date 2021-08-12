@@ -50,7 +50,7 @@ export const AlertScreen = () => {
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Alerts" color="#5856D6" />
+      <HeaderTitle text="Alerts" />
       <Button title="Show Alert" onPress={showAlert} />
       <View style={styles.separator} />
       <Button title="Show Prompt (only iOS)" onPress={showPrompt} />

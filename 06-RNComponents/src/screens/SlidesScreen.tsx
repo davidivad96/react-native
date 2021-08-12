@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { appTheme } from '../theme/appTheme';
 import { useAnimation } from '../hooks/useAnimation';
+import { ThemeContext } from '../context/theme/ThemeContext';
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get('window');
 
@@ -47,6 +48,9 @@ export const SlidesScreen = () => {
   const { top } = useSafeAreaInsets();
   const navigation = useNavigation();
   const { opacity, fadeIn } = useAnimation();
+  const {
+    theme: { colors },
+  } = useContext(ThemeContext);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const isVisible = useRef(false);
@@ -54,7 +58,9 @@ export const SlidesScreen = () => {
   const renderItem = (item: Slide) => (
     <View style={styles.slideContainer}>
       <Image source={item.img} style={styles.image} />
-      <Text style={styles.itemTitle}>{item.title}</Text>
+      <Text style={{ ...styles.itemTitle, color: colors.primary }}>
+        {item.title}
+      </Text>
       <Text style={styles.itemDescription}>{item.desc}</Text>
     </View>
   );
@@ -63,7 +69,7 @@ export const SlidesScreen = () => {
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Slides" color="#5856D6" style={styles.headerTitle} />
+      <HeaderTitle text="Slides" style={styles.headerTitle} />
       <Carousel
         data={items}
         renderItem={({ item }) => renderItem(item)}
@@ -82,11 +88,14 @@ export const SlidesScreen = () => {
         <Pagination
           dotsLength={items.length}
           activeDotIndex={activeIndex}
-          dotStyle={styles.carouselDot}
+          dotStyle={{ ...styles.carouselDot, backgroundColor: colors.primary }}
         />
         <Animated.View style={{ opacity }}>
           <TouchableOpacity
-            style={styles.carouselButton}
+            style={{
+              ...styles.carouselButton,
+              backgroundColor: colors.primary,
+            }}
             activeOpacity={0.7}
             onPress={() =>
               isVisible.current ? navigation.navigate('Home') : null
@@ -112,7 +121,6 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#5856D6',
   },
   itemDescription: {
     fontSize: 16,
@@ -139,13 +147,11 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#5856D6',
   },
   carouselButton: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5856D6',
     width: 150,
     height: 50,
     borderRadius: 10,

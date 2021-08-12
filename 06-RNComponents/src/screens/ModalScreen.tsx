@@ -28,7 +28,7 @@ export const ModalScreen = () => {
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Modals" color="#5856D6" />
+      <HeaderTitle text="Modals" />
       <Button title="Open modal" onPress={openModal} />
       <Modal
         animationType="fade"

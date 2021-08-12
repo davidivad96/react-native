@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { Separator } from '../components/Separator';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 interface Houses {
@@ -31,6 +32,9 @@ const houses: Houses[] = [
 
 export const CustomSectionListScreen = () => {
   const { top } = useSafeAreaInsets();
+  const {
+    theme: { colors },
+  } = useContext(ThemeContext);
 
   return (
     <View
@@ -38,7 +42,9 @@ export const CustomSectionListScreen = () => {
     >
       <SectionList
         sections={houses}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => (
+          <Text style={{ color: colors.text }}>{item}</Text>
+        )}
         keyExtractor={(item, index) => item.concat(index.toString())}
         renderSectionHeader={({ section }) => (
           <HeaderTitle text={section.house} />
@@ -48,9 +54,7 @@ export const CustomSectionListScreen = () => {
             text={'Total: '.concat(section.data.length.toString())}
           />
         )}
-        ListHeaderComponent={() => (
-          <HeaderTitle text="Section List" color="#5856D6" />
-        )}
+        ListHeaderComponent={() => <HeaderTitle text="Section List" />}
         ListFooterComponent={() => (
           <HeaderTitle
             text={'Total houses: '.concat(houses.length.toString())}

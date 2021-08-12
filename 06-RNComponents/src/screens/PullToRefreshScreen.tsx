@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 export const PullToRefreshScreen = () => {
   const { top } = useSafeAreaInsets();
+  const {
+    theme: { colors, dividerColor },
+  } = useContext(ThemeContext);
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [data, setData] = useState<string>('');
@@ -26,17 +30,17 @@ export const PullToRefreshScreen = () => {
           refreshing={refreshing}
           onRefresh={onRefresh}
           progressViewOffset={10}
-          progressBackgroundColor="#5856D6"
-          colors={['white', 'red', 'orange']}
-          style={styles.refreshControl}
-          tintColor="#FFF"
+          progressBackgroundColor={dividerColor}
+          colors={[colors.text]}
+          style={{ backgroundColor: dividerColor }}
+          tintColor={colors.text}
         />
       }
     >
       <View
         style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
       >
-        <HeaderTitle text="Pull to refresh" color="#5856D6" />
+        <HeaderTitle text="Pull to refresh" />
         {!!data && <HeaderTitle text={data} />}
       </View>
     </ScrollView>
@@ -46,8 +50,5 @@ export const PullToRefreshScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  refreshControl: {
-    backgroundColor: '#5856D6',
   },
 });

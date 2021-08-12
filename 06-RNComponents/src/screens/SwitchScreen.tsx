@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CustomSwitch } from '../components/CustomSwitch';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 interface State {
@@ -13,6 +14,9 @@ interface State {
 
 export const SwitchScreen = () => {
   const { top } = useSafeAreaInsets();
+  const {
+    theme: { colors },
+  } = useContext(ThemeContext);
 
   const [state, setState] = useState<State>({
     isActive: true,
@@ -31,29 +35,37 @@ export const SwitchScreen = () => {
     <View
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
-      <HeaderTitle text="Switches" color="#5856D6" />
+      <HeaderTitle text="Switches" />
       <View style={styles.switchRow}>
-        <Text style={styles.switchText}>isActive</Text>
+        <Text style={{ ...styles.switchText, color: colors.text }}>
+          isActive
+        </Text>
         <CustomSwitch
           isOn={state.isActive}
           onChange={value => onChange(value, 'isActive')}
         />
       </View>
       <View style={styles.switchRow}>
-        <Text style={styles.switchText}>isHungry</Text>
+        <Text style={{ ...styles.switchText, color: colors.text }}>
+          isHungry
+        </Text>
         <CustomSwitch
           isOn={state.isHungry}
           onChange={value => onChange(value, 'isHungry')}
         />
       </View>
       <View style={styles.switchRow}>
-        <Text style={styles.switchText}>isHappy</Text>
+        <Text style={{ ...styles.switchText, color: colors.text }}>
+          isHappy
+        </Text>
         <CustomSwitch
           isOn={state.isHappy}
           onChange={value => onChange(value, 'isHappy')}
         />
       </View>
-      <Text style={styles.switchText}>{JSON.stringify(state, null, 5)}</Text>
+      <Text style={{ ...styles.switchText, color: colors.text }}>
+        {JSON.stringify(state, null, 5)}
+      </Text>
     </View>
   );
 };
