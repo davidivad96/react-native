@@ -1,12 +1,12 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/navigator/StackNavigator';
+import { ThemeProvider } from './src/context/theme/ThemeContext';
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <ThemeProvider>
       <StackNavigator />
-    </NavigationContainer>
+    </ThemeProvider>
   );
 };
 
