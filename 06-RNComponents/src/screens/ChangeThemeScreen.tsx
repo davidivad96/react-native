@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appTheme } from '../theme/appTheme';
 
 export const ChangeThemeScreen = () => {
+  const { setDarkTheme } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
 
   return (
@@ -12,7 +14,11 @@ export const ChangeThemeScreen = () => {
       style={[styles.container, appTheme.container, { marginTop: top + 20 }]}
     >
       <HeaderTitle text="Themes" color="#5856D6" />
-      <TouchableOpacity style={styles.button} activeOpacity={0.6}>
+      <TouchableOpacity
+        style={styles.button}
+        activeOpacity={0.6}
+        onPress={setDarkTheme}
+      >
         <Text style={styles.buttonText}>Light / Dark</Text>
       </TouchableOpacity>
     </View>
