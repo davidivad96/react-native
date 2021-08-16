@@ -1,14 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { StackNavigator } from './src/navigation/StackNavigator';
 
 const App = () => {
-  return (
-    <View>
-      <Text>Hello World!</Text>
-      <Icon name="star-outline" size={25} color="red" />
-    </View>
-  );
+  return <StackNavigator />;
 };
 
 export default App;
