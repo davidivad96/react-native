@@ -1,12 +1,15 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { appTheme } from '../theme/appTheme';
 const PokeballImage = require('../assets/pokeball.png');
 
 export const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
+  const { pokemons } = usePokemonPaginated();
 
+  console.log('pokemons: ', pokemons);
   return (
     <View style={appTheme.container}>
       <Image source={PokeballImage} style={styles.pokeball} />
