@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
@@ -21,6 +22,7 @@ interface Props {
 const DEFAULT_COLOR = 'grey';
 
 export const PokemonCard = ({ pokemon }: Props) => {
+  const navigation = useNavigation();
   const [bgColor, setBgColor] = useState(DEFAULT_COLOR);
 
   useEffect(() => {
@@ -38,7 +40,15 @@ export const PokemonCard = ({ pokemon }: Props) => {
   }, [pokemon.picture]);
 
   return (
-    <TouchableOpacity activeOpacity={0.4}>
+    <TouchableOpacity
+      activeOpacity={0.4}
+      onPress={() =>
+        navigation.navigate('Pokemon', {
+          pokemon,
+          color: bgColor,
+        })
+      }
+    >
       <View
         style={{
           ...styles.cardContainer,
