@@ -8,10 +8,14 @@ export const usePokemon = (id: string) => {
 
   const loadPokemon = useCallback(async () => {
     setIsLoading(true);
-    const res = await pokemonApi.get<PokemonFull>(
-      `https://pokeapi.co/api/v2/pokemon/${id}`,
-    );
-    setPokemon(res.data);
+    try {
+      const res = await pokemonApi.get<PokemonFull>(
+        `https://pokeapi.co/api/v2/pokemon/${id}`,
+      );
+      setPokemon(res.data);
+    } catch (error) {
+      console.log("Couldn't load full pokemon: ", error);
+    }
     setIsLoading(false);
   }, [id]);
 
