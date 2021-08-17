@@ -10,25 +10,33 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { appTheme } from '../theme/appTheme';
-import { FadeInImage } from '../components/FadeInImage';
+import { PokemonCard } from '../components/PokemonCard';
 const PokeballImage = require('../assets/pokeball.png');
 
 export const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const { pokemons, loadPokemons } = usePokemonPaginated();
 
-  console.log('pokemons: ', pokemons);
   return (
     <View style={appTheme.container}>
       <Image source={PokeballImage} style={styles.pokeball} />
       <FlatList
         data={pokemons}
         keyExtractor={pokemon => pokemon.id}
-        renderItem={({ item }) => (
-          <FadeInImage uri={item.picture} style={styles.pokemonPicture} />
-        )}
+        renderItem={({ item }) => <PokemonCard pokemon={item} />}
         onEndReached={loadPokemons}
         onEndReachedThreshold={0.4}
+        ListHeaderComponent={
+          <Text
+            style={[
+              appTheme.globalPadding,
+              appTheme.title,
+              { top: top + 20, marginBottom: top + 20 },
+            ]}
+          >
+            Pokedex
+          </Text>
+        }
         ListFooterComponent={
           <ActivityIndicator
             style={styles.activityIndicator}
@@ -36,10 +44,9 @@ export const HomeScreen = () => {
             color="grey"
           />
         }
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
       />
-      {/* <Text style={[appTheme.globalPadding, appTheme.title, { top: top + 20 }]}>
-        Pokedex
-      </Text> */}
     </View>
   );
 };
