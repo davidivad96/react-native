@@ -28,7 +28,7 @@ export const PokemonCard = ({ pokemon }: Props) => {
       .then(colors => {
         setBgColor(
           colors.platform === 'ios'
-            ? colors.background
+            ? colors.background || DEFAULT_COLOR
             : colors.dominant || DEFAULT_COLOR,
         );
       })
