@@ -10,6 +10,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { appTheme } from '../theme/appTheme';
+import { FadeInImage } from '../components/FadeInImage';
 const PokeballImage = require('../assets/pokeball.png');
 
 export const HomeScreen = () => {
@@ -24,7 +25,7 @@ export const HomeScreen = () => {
         data={pokemons}
         keyExtractor={pokemon => pokemon.id}
         renderItem={({ item }) => (
-          <Image source={{ uri: item.picture }} style={styles.pokemonPicture} />
+          <FadeInImage uri={item.picture} style={styles.pokemonPicture} />
         )}
         onEndReached={loadPokemons}
         onEndReachedThreshold={0.4}
