@@ -18,11 +18,9 @@ export const PokemonCard = ({ pokemon }: Props) => {
   return (
     <TouchableOpacity activeOpacity={0.9}>
       <View style={{ ...styles.cardContainer, width: windowWidth * 0.4 }}>
-        <View>
-          <Text
-            style={styles.pokemonName}
-          >{`${pokemon.name}\n#${pokemon.id}`}</Text>
-        </View>
+        <Text
+          style={styles.pokemonName}
+        >{`${pokemon.name}\n#${pokemon.id}`}</Text>
       </View>
     </TouchableOpacity>
   );
