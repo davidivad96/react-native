@@ -20,33 +20,35 @@ export const HomeScreen = () => {
   return (
     <View style={appTheme.container}>
       <Image source={PokeballImage} style={styles.pokeball} />
-      <FlatList
-        data={pokemons}
-        keyExtractor={pokemon => pokemon.id}
-        renderItem={({ item }) => <PokemonCard pokemon={item} />}
-        onEndReached={loadPokemons}
-        onEndReachedThreshold={0.4}
-        ListHeaderComponent={
-          <Text
-            style={[
-              appTheme.globalPadding,
-              appTheme.title,
-              { top: top + 20, marginBottom: top + 20 },
-            ]}
-          >
-            Pokedex
-          </Text>
-        }
-        ListFooterComponent={
-          <ActivityIndicator
-            style={styles.activityIndicator}
-            size={20}
-            color="grey"
-          />
-        }
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-      />
+      <View style={styles.cardsContainer}>
+        <FlatList
+          data={pokemons}
+          keyExtractor={pokemon => pokemon.id}
+          renderItem={({ item }) => <PokemonCard pokemon={item} />}
+          onEndReached={loadPokemons}
+          onEndReachedThreshold={0.4}
+          ListHeaderComponent={
+            <Text
+              style={[
+                appTheme.globalPadding,
+                appTheme.title,
+                { top: top + 20, marginBottom: top + 20 },
+              ]}
+            >
+              Pokedex
+            </Text>
+          }
+          ListFooterComponent={
+            <ActivityIndicator
+              style={styles.activityIndicator}
+              size={20}
+              color="grey"
+            />
+          }
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+        />
+      </View>
     </View>
   );
 };
@@ -66,5 +68,8 @@ const styles = StyleSheet.create({
   pokemonPicture: {
     width: 100,
     height: 100,
+  },
+  cardsContainer: {
+    alignItems: 'center',
   },
 });
