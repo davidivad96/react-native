@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ImageColors from 'react-native-image-colors';
 import { Pokemon } from '../interfaces/pokemonInterfaces';
 import { FadeInImage } from './FadeInImage';
 const WhitePokeballImage = require('../assets/white-pokeball.png');
@@ -17,10 +18,34 @@ interface Props {
   pokemon: Pokemon;
 }
 
+const DEFAULT_COLOR = 'grey';
+
 export const PokemonCard = ({ pokemon }: Props) => {
+  const [bgColor, setBgColor] = useState(DEFAULT_COLOR);
+
+  useEffect(() => {
+    ImageColors.getColors(pokemon.picture)
+      .then(colors => {
+        setBgColor(
+          colors.platform === 'ios'
+            ? colors.background
+            : colors.dominant || DEFAULT_COLOR,
+        );
+      })
+      .catch(error => {
+        console.log("Couldn't get colors of image: ", error);
+      });
+  }, [pokemon.picture]);
+
   return (
     <TouchableOpacity activeOpacity={0.4}>
-      <View style={{ ...styles.cardContainer, width: windowWidth * 0.4 }}>
+      <View
+        style={{
+          ...styles.cardContainer,
+          width: windowWidth * 0.4,
+          backgroundColor: bgColor,
+        }}
+      >
         <Text style={styles.pokemonName}>
           {`${pokemon.name}\n#${pokemon.id}`}
         </Text>
@@ -39,7 +64,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     height: 120,
     borderRadius: 15,
-    backgroundColor: 'red',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
