@@ -24,13 +24,18 @@ export const SearchScreen = () => {
   const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
 
   useEffect(() => {
-    setFilteredPokemons(
-      searchTerm.length === 0
-        ? []
-        : pokemons.filter(poke =>
-            poke.name.toLowerCase().includes(searchTerm.toLowerCase()),
-          ),
-    );
+    if (searchTerm.length === 0) {
+      setFilteredPokemons([]);
+    } else if (isNaN(Number(searchTerm))) {
+      setFilteredPokemons(
+        pokemons.filter(poke =>
+          poke.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
+      );
+    } else {
+      const pokemonById = pokemons.find(poke => poke.id === searchTerm);
+      setFilteredPokemons(pokemonById ? [pokemonById] : []);
+    }
   }, [pokemons, searchTerm]);
 
   const updateSearchTerm = useCallback((value: string) => {
