@@ -2,16 +2,31 @@ import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StackNavigator } from './StackNavigator';
-import { SearchScreen } from '../screens/SearchScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { StackNavigator, RootStackParams } from './StackNavigator';
+import { SearchScreen } from '../screens/SearchScreen';
+import { PokemonScreen } from '../screens/PokemonScreen';
 
-const Tab = createBottomTabNavigator();
+const Tab1 = createBottomTabNavigator();
+const Tab2 = createStackNavigator<RootStackParams>();
+
+const Tab2Navigator = () => (
+  <Tab2.Navigator
+    screenOptions={{
+      headerShown: false,
+      cardStyle: { backgroundColor: '#FFF' },
+    }}
+  >
+    <Tab2.Screen name="Home" component={SearchScreen} />
+    <Tab2.Screen name="Pokemon" component={PokemonScreen} />
+  </Tab2.Navigator>
+);
 
 export const BottomTabsNavigator = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Tab1.Navigator
         sceneContainerStyle={styles.root}
         screenOptions={{
           tabBarActiveTintColor: '#5856D6',
@@ -28,7 +43,7 @@ export const BottomTabsNavigator = () => {
           },
         }}
       >
-        <Tab.Screen
+        <Tab1.Screen
           name="Stack"
           component={StackNavigator}
           options={{
@@ -38,9 +53,9 @@ export const BottomTabsNavigator = () => {
             ),
           }}
         />
-        <Tab.Screen
+        <Tab1.Screen
           name="Search"
-          component={SearchScreen}
+          component={Tab2Navigator}
           options={{
             tabBarLabel: 'Search',
             tabBarIcon: ({ color }) => (
@@ -48,7 +63,7 @@ export const BottomTabsNavigator = () => {
             ),
           }}
         />
-      </Tab.Navigator>
+      </Tab1.Navigator>
     </NavigationContainer>
   );
 };
