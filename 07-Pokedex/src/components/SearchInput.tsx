@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -7,24 +7,36 @@ import {
   ViewStyle,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-export const SearchInput = ({ style = {} }: Props) => (
-  <View style={style}>
-    <View style={styles.textInputContainer}>
-      <TextInput
-        placeholder="Search pokemon"
-        style={styles.textInput}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <Icon name="search-outline" color="grey" size={30} />
+export const SearchInput = ({ style = {} }: Props) => {
+  const [textValue, setTextValue] = useState<string>('');
+  const debouncedValue = useDebounce(textValue, 1500);
+
+  useEffect(() => {
+    console.log('debounced value: ', debouncedValue);
+  }, [debouncedValue]);
+
+  return (
+    <View style={style}>
+      <View style={styles.textInputContainer}>
+        <TextInput
+          placeholder="Search pokemon"
+          style={styles.textInput}
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={textValue}
+          onChangeText={setTextValue}
+        />
+        <Icon name="search-outline" color="grey" size={30} />
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   textInputContainer: {
