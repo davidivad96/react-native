@@ -1,8 +1,8 @@
 import React from 'react';
-import { StackNavigator } from './src/navigation/StackNavigator';
+import { BottomTabsNavigator } from './src/navigation/BottomTabsNavigator';
 
 const App = () => {
-  return <StackNavigator />;
+  return <BottomTabsNavigator />;
 };
 
 export default App;
