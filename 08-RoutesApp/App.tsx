@@ -1,13 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
+import { MainNavigator } from './src/navigation/MainNavigator';
 
 const App = () => {
   return (
-    <View>
-      <Text>Hello World!</Text>
-      <Icon name="airplane-outline" color="blue" size={40} />
-    </View>
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
 };
 
