@@ -1,24 +1,19 @@
-import React from 'react';
-import { Button, Platform, StyleSheet, Text, View } from 'react-native';
-import {
-  PERMISSIONS,
-  PermissionStatus,
-  request,
-} from 'react-native-permissions';
+import React, { useContext } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { PermissionsContext } from '../context/PermissionsContext';
 
 export const PermissionsScreen = () => {
-  const requestLocationPermission = async () => {
-    const permissionStatus: PermissionStatus =
-      Platform.OS === 'ios'
-        ? await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
-        : await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-    console.log('PERMISSION: ', permissionStatus);
-  };
+  const { permissions, requestLocationPermission } =
+    useContext(PermissionsContext);
 
   return (
     <View style={styles.container}>
       <Text>Permissions screen</Text>
       <Button title="Permission" onPress={requestLocationPermission} />
+      <Text style={styles.permissionsText}>
+        Current location permissions:{' '}
+        <Text style={styles.boldText}>{permissions.locationStatus}</Text>
+      </Text>
     </View>
   );
 };
@@ -28,5 +23,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  permissionsText: {
+    marginTop: 15,
+    fontSize: 16,
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
 });
