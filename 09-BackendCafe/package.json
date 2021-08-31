@@ -2,9 +2,9 @@
   "name": "07-restserver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node app"
+    "start": "node src/app"
   },
   "keywords": [],
   "author": "",
