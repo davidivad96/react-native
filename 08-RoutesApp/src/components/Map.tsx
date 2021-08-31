@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker as MarkerComponent } from 'react-native-maps';
 import { useLocation } from '../hooks/useLocation';
@@ -11,7 +11,18 @@ interface Props {
 }
 
 export const Map = ({ markers = [] }: Props) => {
-  const { hasLocation, initialPosition } = useLocation();
+  const { hasLocation, initialPosition, getCurrentPosition } = useLocation();
+  const mapViewRef = useRef<MapView>();
+
+  const centerPosition = async () => {
+    const { latitude, longitude } = await getCurrentPosition();
+    mapViewRef.current?.animateCamera({
+      center: {
+        latitude,
+        longitude,
+      },
+    });
+  };
 
   if (!hasLocation) {
     return <LoadingScreen />;
@@ -28,6 +39,7 @@ export const Map = ({ markers = [] }: Props) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        ref={el => (mapViewRef.current = el!)}
       >
         {markers.map(marker => (
           <MarkerComponent
@@ -42,8 +54,8 @@ export const Map = ({ markers = [] }: Props) => {
         ))}
       </MapView>
       <Fab
-        iconName="star-outline"
-        onPress={() => {}}
+        iconName="compass-outline"
+        onPress={centerPosition}
         style={styles.fabButton}
       />
     </>
