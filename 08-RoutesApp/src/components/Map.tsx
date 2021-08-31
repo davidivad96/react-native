@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, {
   Marker as MarkerComponent,
@@ -23,6 +23,7 @@ export const Map = ({ markers = [] }: Props) => {
     followUserPosition,
     stopFollowUserPosition,
   } = useLocation();
+  const [showPolyline, setShowPolyline] = useState<boolean>(true);
   const mapViewRef = useRef<MapView>();
   const followingRef = useRef<boolean>(true);
 
@@ -35,6 +36,10 @@ export const Map = ({ markers = [] }: Props) => {
       },
     });
     followingRef.current = true;
+  };
+
+  const toggleShowPolyline = () => {
+    setShowPolyline(currentShowPolyline => !currentShowPolyline);
   };
 
   useEffect(() => {
@@ -74,7 +79,13 @@ export const Map = ({ markers = [] }: Props) => {
         ref={el => (mapViewRef.current = el!)}
         onTouchStart={() => (followingRef.current = false)}
       >
-        <Polyline coordinates={routeLines} strokeColor="blue" strokeWidth={3} />
+        {showPolyline && (
+          <Polyline
+            coordinates={routeLines}
+            strokeColor="blue"
+            strokeWidth={3}
+          />
+        )}
         {markers.map(marker => (
           <MarkerComponent
             key={`${marker.location.latitude},${marker.location.longitude}`}
@@ -90,7 +101,12 @@ export const Map = ({ markers = [] }: Props) => {
       <Fab
         iconName="compass-outline"
         onPress={centerPosition}
-        style={styles.fabButton}
+        style={styles.fabCompassButton}
+      />
+      <Fab
+        iconName="brush-outline"
+        onPress={toggleShowPolyline}
+        style={styles.fabBrushButton}
       />
     </>
   );
@@ -100,9 +116,14 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  fabButton: {
+  fabCompassButton: {
     position: 'absolute',
     bottom: 20,
+    right: 20,
+  },
+  fabBrushButton: {
+    position: 'absolute',
+    bottom: 80,
     right: 20,
   },
 });
