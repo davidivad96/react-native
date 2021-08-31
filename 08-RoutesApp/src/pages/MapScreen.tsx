@@ -1,26 +1,23 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
 import { Map } from '../components/Map';
 
-export const MapScreen = () => {
-  Geolocation.getCurrentPosition(console.log);
-
-  return (
-    <View style={styles.container}>
-      <Map
-        markers={[
-          {
+export const MapScreen = () => (
+  <View style={styles.container}>
+    <Map
+      markers={[
+        {
+          location: {
             latitude: 37.78825,
             longitude: -122.4324,
-            title: 'Marker title',
-            description: 'Marker description',
           },
-        ]}
-      />
-    </View>
-  );
-};
+          title: 'Marker title',
+          description: 'Marker description',
+        },
+      ]}
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
