@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 import { Map } from '../components/Map';
 
 export const MapScreen = () => {
+  Geolocation.getCurrentPosition(console.log);
+
   return (
     <View style={styles.container}>
       <Map
