@@ -17,11 +17,11 @@ interface Props {
 export const Fab = ({ iconName, onPress, style = {} }: Props) => (
   <View style={style}>
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={0.5}
       onPress={onPress}
       style={styles.button}
     >
-      <Icon name={iconName} color="#FFF" size={35} />
+      <Icon name={iconName} color="#FFF" size={35} style={styles.icon} />
     </TouchableOpacity>
   </View>
 );
@@ -42,5 +42,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+  },
+  icon: {
+    left: 1,
   },
 });
