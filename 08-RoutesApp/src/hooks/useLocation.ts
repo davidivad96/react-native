@@ -14,16 +14,26 @@ export const useLocation = () => {
   });
   const [routeLines, setRouteLines] = useState<Location[]>([]);
   const watchId = useRef<number>();
+  const isMounted = useRef<boolean>(true);
 
   useEffect(() => {
-    getCurrentPosition()
-      .then(location => {
-        setInitialPosition(location);
-        setUserPosition(location);
-        setRouteLines(currentRouteLines => [...currentRouteLines, location]);
-        setHasLocation(true);
-      })
-      .catch(error => console.log('error: ', error));
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      getCurrentPosition()
+        .then(location => {
+          setInitialPosition(location);
+          setUserPosition(location);
+          setRouteLines(currentRouteLines => [...currentRouteLines, location]);
+          setHasLocation(true);
+        })
+        .catch(error => console.log('error: ', error));
+    }
   }, []);
 
   const getCurrentPosition = (): Promise<Location> =>
@@ -43,21 +53,23 @@ export const useLocation = () => {
     });
 
   const followUserPosition = () => {
-    watchId.current = Geolocation.watchPosition(
-      ({ coords }) => {
-        const location: Location = {
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        };
-        setUserPosition(location);
-        setRouteLines(currentRouteLines => [...currentRouteLines, location]);
-      },
-      err => console.log('err: ', err),
-      {
-        enableHighAccuracy: true,
-        distanceFilter: 10,
-      },
-    );
+    if (isMounted.current) {
+      watchId.current = Geolocation.watchPosition(
+        ({ coords }) => {
+          const location: Location = {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          };
+          setUserPosition(location);
+          setRouteLines(currentRouteLines => [...currentRouteLines, location]);
+        },
+        err => console.log('err: ', err),
+        {
+          enableHighAccuracy: true,
+          distanceFilter: 10,
+        },
+      );
+    }
   };
 
   const stopFollowUserPosition = () => {
