@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker as MarkerComponent } from 'react-native-maps';
 import { useLocation } from '../hooks/useLocation';
@@ -11,8 +11,16 @@ interface Props {
 }
 
 export const Map = ({ markers = [] }: Props) => {
-  const { hasLocation, initialPosition, getCurrentPosition } = useLocation();
+  const {
+    hasLocation,
+    initialPosition,
+    userPosition,
+    getCurrentPosition,
+    followUserPosition,
+    stopFollowUserPosition,
+  } = useLocation();
   const mapViewRef = useRef<MapView>();
+  const followingRef = useRef<boolean>(true);
 
   const centerPosition = async () => {
     const { latitude, longitude } = await getCurrentPosition();
@@ -22,7 +30,27 @@ export const Map = ({ markers = [] }: Props) => {
         longitude,
       },
     });
+    followingRef.current = true;
   };
+
+  useEffect(() => {
+    followUserPosition();
+    return () => {
+      stopFollowUserPosition();
+    };
+  }, [followUserPosition, stopFollowUserPosition]);
+
+  useEffect(() => {
+    if (followingRef.current) {
+      const { latitude, longitude } = userPosition;
+      mapViewRef.current?.animateCamera({
+        center: {
+          latitude,
+          longitude,
+        },
+      });
+    }
+  }, [userPosition]);
 
   if (!hasLocation) {
     return <LoadingScreen />;
@@ -40,6 +68,7 @@ export const Map = ({ markers = [] }: Props) => {
           longitudeDelta: 0.0421,
         }}
         ref={el => (mapViewRef.current = el!)}
+        onTouchStart={() => (followingRef.current = false)}
       >
         {markers.map(marker => (
           <MarkerComponent

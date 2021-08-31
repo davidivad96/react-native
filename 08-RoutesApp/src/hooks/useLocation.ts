@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { Location } from '../interfaces/appInterfaces';
 
@@ -8,11 +8,17 @@ export const useLocation = () => {
     latitude: 0,
     longitude: 0,
   });
+  const [userPosition, setUserPosition] = useState<Location>({
+    latitude: 0,
+    longitude: 0,
+  });
+  const watchId = useRef<number>();
 
   useEffect(() => {
     getCurrentPosition()
       .then(location => {
         setInitialPosition(location);
+        setUserPosition(location);
         setHasLocation(true);
       })
       .catch(error => console.log('error: ', error));
@@ -34,9 +40,34 @@ export const useLocation = () => {
       );
     });
 
+  const followUserPosition = () => {
+    watchId.current = Geolocation.watchPosition(
+      ({ coords }) => {
+        setUserPosition({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+      },
+      err => console.log('err: ', err),
+      {
+        enableHighAccuracy: true,
+        distanceFilter: 10,
+      },
+    );
+  };
+
+  const stopFollowUserPosition = () => {
+    if (watchId.current) {
+      Geolocation.clearWatch(watchId.current);
+    }
+  };
+
   return {
     hasLocation,
     initialPosition,
+    userPosition,
     getCurrentPosition,
+    followUserPosition,
+    stopFollowUserPosition,
   };
 };
