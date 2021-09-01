@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { Keyboard } from 'react-native';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,11 +8,28 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Background } from '../components/Background';
 import { WhiteLogo } from '../components/WhiteLogo';
+import { useForm } from '../hooks/useForm';
 import { loginTheme } from '../themes/loginTheme';
 
 export const LoginScreen = () => {
+  const { navigate } = useNavigation();
+  const { email, password, onChange } = useForm({
+    email: '',
+    password: '',
+  });
+
+  const onLogin = useCallback(() => {
+    console.log({ email, password });
+    Keyboard.dismiss();
+  }, [email, password]);
+
+  const onPressNewAccount = useCallback(() => {
+    navigate('Signup');
+  }, [navigate]);
+
   return (
     <>
       <Background />
@@ -35,6 +53,8 @@ export const LoginScreen = () => {
             selectionColor="#FFF"
             autoCapitalize="none"
             autoCorrect={false}
+            onChangeText={value => onChange(value, 'email')}
+            value={email}
           />
           <Text style={loginTheme.label}>Password:</Text>
           <TextInput
@@ -49,14 +69,20 @@ export const LoginScreen = () => {
             autoCapitalize="none"
             autoCorrect={false}
             secureTextEntry
+            onChangeText={value => onChange(value, 'password')}
+            value={password}
           />
           <View style={loginTheme.buttonContainer}>
-            <TouchableOpacity activeOpacity={0.4} style={loginTheme.button}>
+            <TouchableOpacity
+              activeOpacity={0.4}
+              style={loginTheme.button}
+              onPress={onLogin}
+            >
               <Text style={loginTheme.buttonText}>Login</Text>
             </TouchableOpacity>
           </View>
           <View style={loginTheme.newUserContainer}>
-            <TouchableOpacity activeOpacity={0.4}>
+            <TouchableOpacity activeOpacity={0.4} onPress={onPressNewAccount}>
               <Text style={loginTheme.buttonText}>New account</Text>
             </TouchableOpacity>
           </View>
