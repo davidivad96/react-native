@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { Keyboard } from 'react-native';
 import {
   KeyboardAvoidingView,
@@ -7,24 +7,35 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Background } from '../components/Background';
 import { WhiteLogo } from '../components/WhiteLogo';
 import { useForm } from '../hooks/useForm';
 import { loginTheme } from '../themes/loginTheme';
+import { AuthContext } from '../context/AuthContext';
 
 export const LoginScreen = () => {
+  const { errorMsg, login, removeError } = useContext(AuthContext);
   const { navigate } = useNavigation();
   const { email, password, onChange } = useForm({
     email: '',
     password: '',
   });
 
+  useEffect(() => {
+    if (errorMsg.length) {
+      Alert.alert('Login failed', errorMsg, [
+        { text: 'Ok', onPress: removeError },
+      ]);
+    }
+  }, [errorMsg, removeError]);
+
   const onLogin = useCallback(() => {
-    console.log({ email, password });
     Keyboard.dismiss();
-  }, [email, password]);
+    login({ correo: email, password });
+  }, [email, password, login]);
 
   const onPressNewAccount = useCallback(() => {
     navigate('Signup');
@@ -36,6 +47,7 @@ export const LoginScreen = () => {
       <KeyboardAvoidingView
         style={loginTheme.loginContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 100 : 0}
       >
         <View style={loginTheme.formContainer}>
           <WhiteLogo />

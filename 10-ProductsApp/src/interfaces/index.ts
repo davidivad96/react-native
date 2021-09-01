@@ -14,4 +14,9 @@ export interface User {
   uid: string;
 }
 
+export interface LoginData {
+  correo: string;
+  password: string;
+}
+
 export type AuthStatus = 'checking' | 'authenticated' | 'non-authenticated';

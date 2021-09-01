@@ -22,9 +22,8 @@ export const SignupScreen = () => {
   });
 
   const onSignup = useCallback(() => {
-    console.log({ email, password, name });
     Keyboard.dismiss();
-  }, [email, password, name]);
+  }, []);
 
   const onPressLogin = useCallback(() => {
     navigate('Login');
