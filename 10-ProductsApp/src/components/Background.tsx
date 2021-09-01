@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: width * 2,
     height: height * 2,
-    top: -500,
+    top: -height / 1.6,
     transform: [
       {
         rotate: '-70deg',
