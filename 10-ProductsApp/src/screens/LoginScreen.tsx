@@ -34,7 +34,7 @@ export const LoginScreen = () => {
     <>
       <Background />
       <KeyboardAvoidingView
-        style={loginTheme.keyboardAvoidingView}
+        style={loginTheme.loginContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={loginTheme.formContainer}>
@@ -81,7 +81,7 @@ export const LoginScreen = () => {
               <Text style={loginTheme.buttonText}>Login</Text>
             </TouchableOpacity>
           </View>
-          <View style={loginTheme.newUserContainer}>
+          <View style={loginTheme.newAccountContainer}>
             <TouchableOpacity activeOpacity={0.4} onPress={onPressNewAccount}>
               <Text style={loginTheme.buttonText}>New account</Text>
             </TouchableOpacity>

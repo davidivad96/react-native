@@ -1,15 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 export const loginTheme = StyleSheet.create({
-  keyboardAvoidingView: {
+  loginContainer: {
     flex: 1,
+  },
+  signupContainer: {
+    flex: 1,
+    backgroundColor: '#5856D6',
   },
   formContainer: {
     flex: 1,
+    paddingVertical: 50,
     paddingHorizontal: 30,
     justifyContent: 'center',
     height: 600,
-    paddingBottom: 50,
   },
   title: {
     color: '#FFF',
@@ -46,8 +50,18 @@ export const loginTheme = StyleSheet.create({
     fontSize: 18,
     color: '#FFF',
   },
-  newUserContainer: {
+  newAccountContainer: {
     alignItems: 'flex-end',
     marginTop: 20,
+  },
+  loginButtonContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 30,
+    borderWidth: 1,
+    borderColor: '#FFF',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
   },
 });
