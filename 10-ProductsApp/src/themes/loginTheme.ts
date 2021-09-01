@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export const loginTheme = StyleSheet.create({
+  keyboardAvoidingView: {
+    flex: 1,
+  },
   formContainer: {
     flex: 1,
     paddingHorizontal: 30,
