@@ -3,9 +3,9 @@ import { Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SignupScreen } from '../screens/SignupScreen';
-import { ProtectedScreen } from '../screens/ProtectedScreen';
 import { AuthContext } from '../context/Auth/AuthContext';
 import { LoadingScreen } from '../screens/LoadingScreen';
+import { ProductsNavigator } from './ProductsNavigator';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +34,7 @@ export const MainNavigator = () => {
       }}
     >
       {status === 'authenticated' ? (
-        <Stack.Screen name="Protected" component={ProtectedScreen} />
+        <Stack.Screen name="ProductsNavigator" component={ProductsNavigator} />
       ) : (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
