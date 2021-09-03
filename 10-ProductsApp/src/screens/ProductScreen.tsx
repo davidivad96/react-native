@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,34 +6,85 @@ import {
   View,
   TextInput,
   Button,
+  Image,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Picker } from '@react-native-picker/picker';
 import { ProductsStackParams } from '../navigation/ProductsNavigator';
 import { useCategories } from '../hooks/useCategories';
+import { useForm } from '../hooks/useForm';
+import { ProductsContext } from '../context/Products/ProductsContext';
 
 interface Props extends StackScreenProps<ProductsStackParams, 'Product'> {}
 
 export const ProductScreen = ({ route, navigation }: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState();
-  const { id, name = 'New product' } = route.params;
+  const { loadProductById, addProduct, updateProduct } =
+    useContext(ProductsContext);
+  const { id = '', name = '' } = route.params;
   const { categories } = useCategories();
+  const { _id, categoryId, productName, img, onChange, setFormValue } = useForm(
+    {
+      _id: id,
+      categoryId: '',
+      productName: name,
+      img: '',
+    },
+  );
+
+  const loadProduct = async () => {
+    if (id) {
+      const product = await loadProductById(id);
+      setFormValue({
+        _id: id,
+        categoryId: product.categoria._id,
+        img: product.img || '',
+        productName,
+      });
+    }
+  };
+
+  const saveOrUpdate = useCallback(async () => {
+    if (id) {
+      await updateProduct(categoryId, id, productName);
+    } else {
+      await addProduct(categoryId || categories[0]._id, productName);
+    }
+    navigation.goBack();
+  }, [
+    addProduct,
+    categories,
+    categoryId,
+    id,
+    navigation,
+    productName,
+    updateProduct,
+  ]);
+
+  useEffect(() => {
+    loadProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: name,
+      title: productName ? productName : 'No product name',
     });
-  }, [name, navigation]);
+  }, [name, navigation, productName]);
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.label}>Product name:</Text>
-        <TextInput placeholder="Product" style={styles.textInput} />
+        <TextInput
+          placeholder="Product"
+          style={styles.textInput}
+          value={productName}
+          onChangeText={value => onChange(value, 'productName')}
+        />
         <Text style={styles.label}>Category:</Text>
         <Picker
-          selectedValue={selectedCategory}
-          onValueChange={itemValue => setSelectedCategory(itemValue)}
+          selectedValue={categoryId}
+          onValueChange={itemValue => onChange(itemValue, 'categoryId')}
         >
           {categories.map(category => (
             <Picker.Item
@@ -44,12 +95,15 @@ export const ProductScreen = ({ route, navigation }: Props) => {
           ))}
         </Picker>
         <View style={styles.verticalSeparation} />
-        <Button title="Save" onPress={() => {}} color="#5856D6" />
-        <View style={styles.row}>
-          <Button title="Camera" onPress={() => {}} color="#5856D6" />
-          <View style={styles.horizontalSeparation} />
-          <Button title="Gallery" onPress={() => {}} color="#5856D6" />
-        </View>
+        <Button title="Save" onPress={saveOrUpdate} color="#5856D6" />
+        {!!_id && (
+          <View style={styles.row}>
+            <Button title="Camera" onPress={() => {}} color="#5856D6" />
+            <View style={styles.horizontalSeparation} />
+            <Button title="Gallery" onPress={() => {}} color="#5856D6" />
+          </View>
+        )}
+        {!!img && <Image source={{ uri: img }} style={styles.image} />}
       </ScrollView>
     </View>
   );
@@ -84,5 +138,10 @@ const styles = StyleSheet.create({
   },
   verticalSeparation: {
     height: 10,
+  },
+  image: {
+    width: '100%',
+    height: 300,
+    marginTop: 30,
   },
 });
