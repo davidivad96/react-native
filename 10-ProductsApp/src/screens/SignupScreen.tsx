@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,9 +12,12 @@ import { useNavigation } from '@react-navigation/native';
 import { WhiteLogo } from '../components/WhiteLogo';
 import { loginTheme } from '../themes/loginTheme';
 import { useForm } from '../hooks/useForm';
+import { AuthContext } from '../context/AuthContext';
 
 export const SignupScreen = () => {
   const { navigate } = useNavigation();
+  const { signup } = useContext(AuthContext);
+
   const { email, password, name, onChange } = useForm({
     email: '',
     password: '',
@@ -23,7 +26,8 @@ export const SignupScreen = () => {
 
   const onSignup = useCallback(() => {
     Keyboard.dismiss();
-  }, []);
+    signup({ nombre: name, correo: email, password });
+  }, [email, name, password, signup]);
 
   const onPressLogin = useCallback(() => {
     navigate('Login');
@@ -51,7 +55,7 @@ export const SignupScreen = () => {
             autoCapitalize="words"
             autoCorrect={false}
             onChangeText={value => onChange(value, 'name')}
-            value={email}
+            value={name}
           />
           <Text style={loginTheme.label}>Email:</Text>
           <TextInput

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Keyboard } from 'react-native';
 import {
   KeyboardAvoidingView,
@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Background } from '../components/Background';
@@ -17,20 +16,12 @@ import { loginTheme } from '../themes/loginTheme';
 import { AuthContext } from '../context/AuthContext';
 
 export const LoginScreen = () => {
-  const { errorMsg, login, removeError } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const { navigate } = useNavigation();
   const { email, password, onChange } = useForm({
     email: '',
     password: '',
   });
-
-  useEffect(() => {
-    if (errorMsg.length) {
-      Alert.alert('Login failed', errorMsg, [
-        { text: 'Ok', onPress: removeError },
-      ]);
-    }
-  }, [errorMsg, removeError]);
 
   const onLogin = useCallback(() => {
     Keyboard.dismiss();

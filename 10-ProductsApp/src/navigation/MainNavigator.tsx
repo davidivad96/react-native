@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SignupScreen } from '../screens/SignupScreen';
@@ -9,7 +10,15 @@ import { LoadingScreen } from '../screens/LoadingScreen';
 const Stack = createStackNavigator();
 
 export const MainNavigator = () => {
-  const { status } = useContext(AuthContext);
+  const { status, errorMsg, removeError } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (errorMsg.length) {
+      Alert.alert('Signup failed', errorMsg, [
+        { text: 'Ok', onPress: removeError },
+      ]);
+    }
+  }, [errorMsg, removeError]);
 
   if (status === 'checking') {
     return <LoadingScreen />;
