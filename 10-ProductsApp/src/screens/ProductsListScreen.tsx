@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -6,10 +6,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { ProductsContext } from '../context/Products/ProductsContext';
+import { ProductsStackParams } from '../navigation/ProductsNavigator';
 
-export const ProductsListScreen = () => {
+interface Props extends StackScreenProps<ProductsStackParams, 'ProductsList'> {}
+
+export const ProductsListScreen = ({ navigation }: Props) => {
   const { products } = useContext(ProductsContext);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          activeOpacity={0.3}
+          onPress={() => navigation.navigate('Product', {})}
+        >
+          <Text>Add</Text>
+        </TouchableOpacity>
+      ),
+      headerRightContainerStyle: {
+        padding: 15,
+      },
+    });
+  }, [navigation]);
 
   // TODO: Pull to refresh
 
@@ -19,7 +39,15 @@ export const ProductsListScreen = () => {
         data={products}
         keyExtractor={product => product._id}
         renderItem={({ item }) => (
-          <TouchableOpacity activeOpacity={0.3}>
+          <TouchableOpacity
+            activeOpacity={0.3}
+            onPress={() =>
+              navigation.navigate('Product', {
+                id: item._id,
+                name: item.nombre,
+              })
+            }
+          >
             <Text style={styles.productName}>{item.nombre}</Text>
           </TouchableOpacity>
         )}
