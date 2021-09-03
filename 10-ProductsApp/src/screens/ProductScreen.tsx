@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,12 +8,16 @@ import {
   Button,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { Picker } from '@react-native-picker/picker';
 import { ProductsStackParams } from '../navigation/ProductsNavigator';
+import { useCategories } from '../hooks/useCategories';
 
 interface Props extends StackScreenProps<ProductsStackParams, 'Product'> {}
 
 export const ProductScreen = ({ route, navigation }: Props) => {
+  const [selectedCategory, setSelectedCategory] = useState();
   const { id, name = 'New product' } = route.params;
+  const { categories } = useCategories();
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,6 +31,18 @@ export const ProductScreen = ({ route, navigation }: Props) => {
         <Text style={styles.label}>Product name:</Text>
         <TextInput placeholder="Product" style={styles.textInput} />
         <Text style={styles.label}>Category:</Text>
+        <Picker
+          selectedValue={selectedCategory}
+          onValueChange={itemValue => setSelectedCategory(itemValue)}
+        >
+          {categories.map(category => (
+            <Picker.Item
+              label={category.nombre}
+              value={category._id}
+              key={category._id}
+            />
+          ))}
+        </Picker>
         <View style={styles.verticalSeparation} />
         <Button title="Save" onPress={() => {}} color="#5856D6" />
         <View style={styles.row}>
