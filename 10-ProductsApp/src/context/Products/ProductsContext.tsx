@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createContext, useState, useCallback } from 'react';
-import { Product } from '../../interfaces';
+import cafeApi from '../../api/cafeApi';
+import { Product, ProductsResponse } from '../../interfaces';
 
 type ProductsContextProps = {
   products: Product[];
@@ -16,7 +17,7 @@ type ProductsContextProps = {
   uploadImage: (data: any, id: string) => void; // TODO: set data type, not any
 };
 
-export const ProductsContext = createContext({});
+export const ProductsContext = createContext({} as ProductsContextProps);
 
 export const ProductsProvider = ({
   children,
@@ -25,7 +26,10 @@ export const ProductsProvider = ({
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const loadProducts = useCallback(async () => {}, []);
+  const loadProducts = useCallback(async () => {
+    const { data } = await cafeApi.get<ProductsResponse>('productos');
+    setProducts(currentProducts => [...currentProducts, ...data.productos]);
+  }, []);
 
   const addProduct = useCallback(
     async (categoryId: string, productName: string) => {},
@@ -42,6 +46,10 @@ export const ProductsProvider = ({
   const loadProductById = useCallback(async (productId: string) => {}, []);
 
   const uploadImage = useCallback(async (data: any, id: string) => {}, []);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   return (
     <ProductsContext.Provider
