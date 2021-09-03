@@ -13,8 +13,8 @@ import {
   LoginResponse,
   SignupData,
   User,
-} from '../interfaces';
-import cafeApi from '../api/cafeApi';
+} from '../../interfaces';
+import cafeApi from '../../api/cafeApi';
 
 type AuthContextProps = {
   token: string | null;

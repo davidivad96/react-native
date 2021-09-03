@@ -13,7 +13,7 @@ import { Background } from '../components/Background';
 import { WhiteLogo } from '../components/WhiteLogo';
 import { useForm } from '../hooks/useForm';
 import { loginTheme } from '../themes/loginTheme';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/Auth/AuthContext';
 
 export const LoginScreen = () => {
   const { login } = useContext(AuthContext);

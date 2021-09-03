@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { WhiteLogo } from '../components/WhiteLogo';
 import { loginTheme } from '../themes/loginTheme';
 import { useForm } from '../hooks/useForm';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/Auth/AuthContext';
 
 export const SignupScreen = () => {
   const { navigate } = useNavigation();

@@ -1,4 +1,4 @@
-import { AuthStatus, User } from '../interfaces';
+import { AuthStatus, User } from '../../interfaces';
 
 export interface AuthState {
   token: string | null;
