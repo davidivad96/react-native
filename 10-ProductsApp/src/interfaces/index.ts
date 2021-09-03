@@ -19,4 +19,8 @@ export interface LoginData {
   password: string;
 }
 
+export interface SignupData extends LoginData {
+  nombre: string;
+}
+
 export type AuthStatus = 'checking' | 'authenticated' | 'non-authenticated';

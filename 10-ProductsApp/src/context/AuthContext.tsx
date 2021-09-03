@@ -7,7 +7,13 @@ import React, {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosError } from 'axios';
 import { authReducer, AuthState } from './authReducer';
-import { AuthStatus, LoginData, LoginResponse, User } from '../interfaces';
+import {
+  AuthStatus,
+  LoginData,
+  LoginResponse,
+  SignupData,
+  User,
+} from '../interfaces';
 import cafeApi from '../api/cafeApi';
 
 type AuthContextProps = {
@@ -15,7 +21,7 @@ type AuthContextProps = {
   user: User | null;
   status: AuthStatus;
   errorMsg: string;
-  signup: () => void;
+  signup: (signupData: SignupData) => void;
   login: (loginData: LoginData) => void;
   logout: () => void;
   removeError: () => void;
@@ -37,7 +43,33 @@ export const AuthProvider = ({
 }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const signup = useCallback(() => {}, []);
+  const signup = useCallback(
+    async ({ nombre, correo, password }: SignupData) => {
+      try {
+        const { data } = await cafeApi.post<LoginResponse>('/usuarios', {
+          nombre,
+          correo,
+          password,
+        });
+        dispatch({
+          type: 'auth',
+          payload: {
+            token: data.token,
+            user: data.usuario,
+          },
+        });
+        await AsyncStorage.setItem('token', data.token);
+      } catch (err) {
+        const error = err as AxiosError;
+        console.log('error: ', error.response?.data);
+        dispatch({
+          type: 'addError',
+          payload: error.response?.data.msg || 'Incorrect information',
+        });
+      }
+    },
+    [],
+  );
 
   const login = useCallback(async ({ correo, password }: LoginData) => {
     try {
@@ -63,7 +95,10 @@ export const AuthProvider = ({
     }
   }, []);
 
-  const logout = useCallback(() => {}, []);
+  const logout = useCallback(async () => {
+    await AsyncStorage.removeItem('token');
+    dispatch({ type: 'logout' });
+  }, []);
 
   const removeError = useCallback(() => {
     dispatch({
