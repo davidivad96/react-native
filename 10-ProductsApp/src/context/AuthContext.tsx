@@ -1,4 +1,11 @@
-import React, { createContext, useReducer, useCallback } from 'react';
+import React, {
+  createContext,
+  useReducer,
+  useCallback,
+  useEffect,
+} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AxiosError } from 'axios';
 import { authReducer, AuthState } from './authReducer';
 import { AuthStatus, LoginData, LoginResponse, User } from '../interfaces';
 import cafeApi from '../api/cafeApi';
@@ -45,11 +52,13 @@ export const AuthProvider = ({
           user: data.usuario,
         },
       });
-    } catch (error) {
-      console.log('error: ', error.response.data);
+      await AsyncStorage.setItem('token', data.token);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log('error: ', error.response?.data);
       dispatch({
         type: 'addError',
-        payload: error.response.data.msg || 'Incorrect information',
+        payload: error.response?.data.msg || 'Incorrect information',
       });
     }
   }, []);
@@ -61,6 +70,32 @@ export const AuthProvider = ({
       type: 'removeError',
     });
   }, []);
+
+  const checkToken = useCallback(async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        return dispatch({ type: 'logout' });
+      }
+      const { data, status } = await cafeApi.get<LoginResponse>('/auth');
+      if (status !== 200) {
+        return dispatch({ type: 'logout' });
+      }
+      dispatch({
+        type: 'auth',
+        payload: {
+          token: data.token,
+          user: data.usuario,
+        },
+      });
+    } catch (error) {
+      console.log('err: ', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkToken();
+  }, [checkToken]);
 
   return (
     <AuthContext.Provider
