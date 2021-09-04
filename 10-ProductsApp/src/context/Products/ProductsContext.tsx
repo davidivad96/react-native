@@ -1,4 +1,5 @@
 import React, { useEffect, createContext, useState, useCallback } from 'react';
+import { ImagePickerResponse } from 'react-native-image-picker';
 import { AxiosError } from 'axios';
 import cafeApi from '../../api/cafeApi';
 import { Product, ProductsResponse } from '../../interfaces';
@@ -17,7 +18,10 @@ type ProductsContextProps = {
   ) => Promise<Product | void>;
   deleteProduct: (productId: string) => Promise<void>;
   loadProductById: (productId: string) => Promise<Product>;
-  uploadImage: (data: any, id: string) => Promise<void>; // TODO: set data type, not any
+  uploadImage: (
+    imageData: ImagePickerResponse,
+    productId: string,
+  ) => Promise<void>;
 };
 
 export const ProductsContext = createContext({} as ProductsContextProps);
@@ -93,7 +97,27 @@ export const ProductsProvider = ({
   );
 
   const uploadImage = useCallback(
-    async (data: any, id: string): Promise<void> => {},
+    async (
+      imageData: ImagePickerResponse,
+      productId: string,
+    ): Promise<void> => {
+      if (imageData.assets?.length) {
+        const image = imageData.assets[0];
+        const fileToUpload = {
+          uri: image.uri,
+          type: image.type,
+          name: image.fileName,
+        };
+        const formData = new FormData();
+        formData.append('archivo', fileToUpload);
+        try {
+          await cafeApi.put(`/uploads/productos/${productId}`, formData);
+        } catch (err) {
+          const error = err as AxiosError;
+          console.log('error: ', error.response?.data);
+        }
+      }
+    },
     [],
   );
 

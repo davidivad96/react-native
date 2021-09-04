@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect, useCallback, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Picker } from '@react-native-picker/picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { ProductsStackParams } from '../navigation/ProductsNavigator';
 import { useCategories } from '../hooks/useCategories';
 import { useForm } from '../hooks/useForm';
@@ -18,8 +19,9 @@ import { ProductsContext } from '../context/Products/ProductsContext';
 interface Props extends StackScreenProps<ProductsStackParams, 'Product'> {}
 
 export const ProductScreen = ({ route, navigation }: Props) => {
-  const { loadProductById, addProduct, updateProduct } =
+  const { loadProductById, addProduct, updateProduct, uploadImage } =
     useContext(ProductsContext);
+  const [tempUri, setTempUri] = useState<string>('');
   const { id = '', name = '' } = route.params;
   const { categories } = useCategories();
   const { _id, categoryId, productName, img, onChange, setFormValue } = useForm(
@@ -60,6 +62,36 @@ export const ProductScreen = ({ route, navigation }: Props) => {
     updateProduct,
   ]);
 
+  const takePhoto = useCallback(() => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      res => {
+        if (!res.didCancel && res.assets?.length) {
+          setTempUri(res.assets[0].uri || '');
+          uploadImage(res, _id);
+        }
+      },
+    );
+  }, [_id, uploadImage]);
+
+  const takePhotoFromGallery = useCallback(() => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      res => {
+        if (!res.didCancel && res.assets?.length) {
+          setTempUri(res.assets[0].uri || '');
+          uploadImage(res, _id);
+        }
+      },
+    );
+  }, [_id, uploadImage]);
+
   useEffect(() => {
     loadProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,12 +130,19 @@ export const ProductScreen = ({ route, navigation }: Props) => {
         <Button title="Save" onPress={saveOrUpdate} color="#5856D6" />
         {!!_id && (
           <View style={styles.row}>
-            <Button title="Camera" onPress={() => {}} color="#5856D6" />
+            <Button title="Camera" onPress={takePhoto} color="#5856D6" />
             <View style={styles.horizontalSeparation} />
-            <Button title="Gallery" onPress={() => {}} color="#5856D6" />
+            <Button
+              title="Gallery"
+              onPress={takePhotoFromGallery}
+              color="#5856D6"
+            />
           </View>
         )}
-        {!!img && <Image source={{ uri: img }} style={styles.image} />}
+        {!!img && !tempUri && (
+          <Image source={{ uri: img }} style={styles.image} />
+        )}
+        {!!tempUri && <Image source={{ uri: tempUri }} style={styles.image} />}
       </ScrollView>
     </View>
   );
