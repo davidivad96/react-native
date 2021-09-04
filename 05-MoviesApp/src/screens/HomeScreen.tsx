@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 import Carousel from 'react-native-snap-carousel';
 import { GradientBackground } from '../components/GradientBackground';
 import { HorizontalSlider } from '../components/HorizontalSlider';
@@ -38,6 +39,10 @@ export const HomeScreen = () => {
       getPosterColors(0);
     }
   }, [getPosterColors, nowPlaying]);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   if (isLoading) {
     return (
