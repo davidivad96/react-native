@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { appTheme } from '../theme/appTheme';
 import { PokemonCard } from '../components/PokemonCard';
@@ -16,6 +17,10 @@ const PokeballImage = require('../assets/pokeball.png');
 export const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const { pokemons, loadPokemons } = usePokemonPaginated();
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <View style={appTheme.container}>
