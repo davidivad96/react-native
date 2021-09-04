@@ -46,9 +46,7 @@ export const useLocation = () => {
           });
         },
         err => reject({ err }),
-        {
-          enableHighAccuracy: true,
-        },
+        {},
       );
     });
 
@@ -65,7 +63,6 @@ export const useLocation = () => {
         },
         err => console.log('err: ', err),
         {
-          enableHighAccuracy: true,
           distanceFilter: 10,
         },
       );
